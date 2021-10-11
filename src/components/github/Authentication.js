@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
+import Loader from '../Loader';
+import './Authentication.css';
+
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 const Authentication = () => {
@@ -29,14 +32,15 @@ const Authentication = () => {
 
 			if (token) {
 				localStorage.setItem('token', token);
-				localStorage.setItem('tokenExpTime', Date.now() + 10000);
+				localStorage.setItem('tokenExpTime', Date.now() + 36000);
 				history.push('/');
 			}
 		}
 	}, []);
 	return (
-		<div>
-			<h2>Authenticating...</h2>
+		<div className='loader-container-1'>
+			{/* <Loader /> */}
+			<p>AUTHENTICATING...</p>
 		</div>
 	);
 };
