@@ -1,22 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 import './Users.css';
 import { universities } from '../utils/univerisities';
 import Loader from './Loader';
+import AuthContext from '../context/auth-context';
 
 const Users = () => {
+	const ctx = useContext(AuthContext);
 	const history = useHistory();
-	const storedToken = localStorage.getItem('token');
-
+	// const storedToken = localStorage.getItem('token');
+	// const [token, setToken] = useState(storedToken);
 	const [schools, setSchools] = useState([]);
 	const [isStudent, setIsStudent] = useState(false);
 	const [loading, setLoading] = useState(true);
-
-	// if (!storedToken) {
-	// 	history.push('/');
-	// }
 
 	const getUserEmails = async (token) => {
 		const { data } = await axios({
@@ -49,6 +47,7 @@ const Users = () => {
 
 	// const logoutHandler = () => {
 	// 	localStorage.clear();
+	// 	setToken(null);
 	// };
 
 	const displayUserInfo = () => {
@@ -69,7 +68,9 @@ const Users = () => {
 						>
 							Github Student Developer Pack
 						</a>
-						<a className='btn logout-btn'>Logout</a>
+						<a className='btn logout-btn' onClick={ctx.logout}>
+							Logout
+						</a>
 					</div>
 				</>
 			);
@@ -88,7 +89,9 @@ const Users = () => {
 						>
 							Github Pricing
 						</a>
-						<a className='btn logout-btn'>Logout</a>
+						<a className='btn logout-btn' onClick={ctx.logout}>
+							Logout
+						</a>
 					</div>
 				</>
 			);
@@ -97,14 +100,14 @@ const Users = () => {
 
 	useEffect(async () => {
 		// setLoading(false);
-		const userEmails = await getUserEmails(storedToken);
+		const userEmails = await getUserEmails(ctx.token);
 		setLoading(false);
 		const userSchools = getSchools(userEmails);
 		if (userSchools.length) {
 			setSchools(getSchools(userEmails));
 			setIsStudent(true);
 		}
-	}, [storedToken]);
+	}, []);
 
 	return (
 		<section className='users section'>
