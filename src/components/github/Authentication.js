@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
-import Loader from '../Loader';
 import './Authentication.css';
+import AuthContext from '../../context/auth-context';
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 const Authentication = () => {
+	const ctx = useContext(AuthContext);
 	const history = useHistory();
 
 	const getAccessToken = async (code) => {
@@ -22,6 +23,7 @@ const Authentication = () => {
 			history.push('/');
 		}
 	};
+
 	useEffect(async () => {
 		const callbackURL = window.location.href;
 		const hasCode = callbackURL.includes('?code=');
@@ -29,11 +31,13 @@ const Authentication = () => {
 		if (hasCode) {
 			const code = callbackURL.split('?code=')[1];
 			const token = await getAccessToken(code);
+			const tokenExpTime = Date.now() + 60000;
 
 			if (token) {
-				localStorage.setItem('token', token);
-				localStorage.setItem('tokenExpTime', Date.now() + 36000);
-				history.push('/');
+				// localStorage.setItem('token', token);
+				// localStorage.setItem('tokenExpTime', Date.now() + 36000);
+				// history.push('/');
+				ctx.setToken(token, tokenExpTime);
 			}
 		}
 	}, []);
