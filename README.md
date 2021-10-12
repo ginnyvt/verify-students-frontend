@@ -1,8 +1,12 @@
 # GitHub Verify Student
 
-> Simple application is built with React hooks, context and Github API and OAuth 2.0 flow to authenticate and access to user's information
+> Simple application is built with React hooks, context and Github API and OAuth 2.0 flow to authenticate and access to user's information.
 
-The API can be found [here](https://github.com/ginnyvt/verify-students-backend) with documented endpoints
+The API can be found [here](https://github.com/ginnyvt/verify-students-backend) with documented endpoints.
+
+## Demo
+
+The application can be found [here](https://verify-students-frontend.herokuapp.com/)
 
 ## Usage
 
